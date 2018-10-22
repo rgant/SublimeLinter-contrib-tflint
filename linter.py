@@ -1,10 +1,14 @@
+"""Subclass to call tflint for linting Terraform HCL files"""
 from SublimeLinter.lint import Linter  # or NodeLinter, PythonLinter, ComposerLinter, RubyLinter
 
 
-class __class__(Linter):
-    cmd = '__cmd__'
-    regex = r''
-    multiline = False
+class TerraformLinter(Linter):
+    """Subclass to call tflint for linting Terraform HCL files"""
+    cmd = 'tflint $file_on_disk'
+    regex = (
+        r'^.+?(?:(?P<error>ERROR)|(?P<warning>(?:(WARNING|NOTICE)))):(?P<line>\d+) (?P<message>.+)'
+    )
     defaults = {
-        'selector': 'source.python'
+        'selector': 'source.terraform'
     }
+    tempfile_suffix = '-'
