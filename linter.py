@@ -51,6 +51,7 @@ class TerraformLinter(Linter):
         # Iterate through the issues, yielding LintMatchs.
         for issue in data['issues']:
             message = issue['message']
+            code = issue["rule"]["name"]
             severity = issue["rule"]["severity"]
             line = issue["range"]["start"]["line"] - self.line_col_base[0]
             col = issue["range"]["start"]["column"] - self.line_col_base[1]
@@ -62,6 +63,7 @@ class TerraformLinter(Linter):
               col=col,
               error_type=severity,
               message=message,
+              code=code,
             )
 
         # Iterate through the errors, yielding LintMatchs.
